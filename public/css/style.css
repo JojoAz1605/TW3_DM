@@ -1,0 +1,42 @@
+html {
+    background-color: paleturquoise;
+}
+
+body {
+    text-align: center;
+}
+
+header {
+    position: fixed;
+}
+
+nav {
+    margin-top: -100px;
+}
+
+li {
+    float: left;
+    list-style-type: none;
+}
+
+a {
+    display: block;
+    padding: 10px;
+}
+
+h1 {
+    color: palevioletred;
+}
+
+p {
+    text-align: justify;
+}
+
+table {
+    display: block;
+    padding: 10px;
+}
+
+img {
+    max-width: 500px;
+}

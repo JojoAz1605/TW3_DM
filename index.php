@@ -48,7 +48,7 @@ switch ($action) {
                 $body .= "Photo ajoutée!";
                 $connexion = null;
                 $req = null;
-            } else {include_once("public/php/pages/formulaire.php");}
+            } else {include_once("public/php/pages/formulaire.php"); }
         }
         break;
     case "list":
@@ -63,7 +63,7 @@ switch ($action) {
         $query->setFetchMode(PDO::FETCH_OBJ);
 
         // Nous traitons les résultats en boucle
-        $body .= "<h4><span class='c1'><b><u>Id de la photo</u></span> <span class='c1'>Nom de l'auteur</span><span class='c1'>Titre de la photo</span>  </span><span class='c1'>Action</b></span></h4>";
+        $body .= "<table><thead><tr><th>ID</th><th>Auteur</th><th>Titre</th><th>Actions</th></tr></thead><tbody>";
 
         while($enregistrement = $query->fetch()) {
             // Affichage des enregistrements
@@ -71,12 +71,12 @@ switch ($action) {
             $author = $enregistrement->author;
             $title = $enregistrement->title;
             $tab_Personne[$idP] = array($title, $title);
-            $body .= "<span class='c1'><u><b>" . $idP . "</b></u></span> <span class='c1'>" . $author . " </span><span class='c1'><a href='index.php?action=details&idP=$idP'>" . $title . "</a></span>";
-            $body .= "<br>";
+            $body .= "<tr><td>$idP</td><td>$author</td><td><a href='index.php?action=detail&idP=$idP'>$title</a></td><td><a href='index.php?action=delete&idP=$idP'>Effacer</a></td></tr>";
         }
+        $body .= "</tbody></table>";
         break;
-    case "details":
-        $idP = key_exists('idP',$_GET)? $_GET['idP']: null;
+    case "detail":
+        $idP = key_exists('idP', $_GET)? $_GET['idP']: null;
         $connection = connecter();
         $req = "SELECT * FROM Photo WHERE idP=:idP";
 
@@ -90,13 +90,42 @@ switch ($action) {
         $descriptionP = $data_photo["descriptionP"];
         $dateS = $data_photo["dateS"];
 
-        $body = "<h1>$author: $title</h1>";
-        $body .= "<h2>Soumis le: $dateS</h2>";
-        $body .= "<h2>Prise le: $dateP</h2>";
+        $body = "<h2>$author: $title</h2>";
+        $body .= "<h3>Soumis le: $dateS</h3>";
+        $body .= "<h3>Prise le: $dateP</h3>";
         $body .= "<p>Description: $descriptionP</p>";
         $body .= "<img src='public/images/photos/$idP.png' alt='$title'>";
 
         $query = null;
+        $connection = null;
+        break;
+    case "delete":
+        $idP = key_exists('idP', $_GET)? $_GET['idP']: null;
+        $req = "DELETE FROM Photo WHERE idP=:ipP";
+
+        $body = "<form action='index.php?action=confirm' method='post'>";
+        $body .= "<input type='hidden' name='type' value='confirmdelete'/>";
+        $body .= "<input type='hidden' name='idP' value='$idP'/>";
+        $body .= "<input type='hidden' name='sql' value='$req'/>";
+        $body .= "Etes vous sûr de vouloir supprimer cette personne ?";
+        $body .= "<p><input type='submit' value='delete'><a href='index.php'>Annuler</a></p>";
+        $body .= "</form>";
+        break;
+    case "confirm":
+        $connection = connecter();
+        $idP = key_exists('idP', $_POST)? $_POST['idP']: null;
+        $type = key_exists('type', $_POST)? $_POST['type']: null;
+        $req = key_exists('sql', $_POST)? $_POST['sql']: null;
+        if ($type =='confirmupdate'){
+            $corps = "<h1>Mise à jour de la photo $idP</h1>" ;
+        }
+        else{
+            $prep_req = $connection->prepare($req);
+            $data = array(':ipP' => $idP);
+            $prep_req->execute($data);
+            unlink("public/images/photos/$idP.png");
+            $body = "<h1>Photo $idP supprimée!</h1>" ;
+        }
         $connection = null;
         break;
     case "about":
