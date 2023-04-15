@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
+    <h1><u>Les photos</u></h1>
     <header>
-        <h1><u>Les photos</u></h1>
         <nav>
             <ul>
                 <?php echo $menu?>
