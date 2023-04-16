@@ -29,7 +29,6 @@ $body .= <<<HTML
     
     <input type='hidden' name='type' value='confirmupdate'>
     <input type='hidden' name='idP' value=$idP>
-    <input type='hidden' name='sql' value='$req'>
     
     <button type="submit">Enregistrer</button>
 </form>

@@ -22,6 +22,14 @@ li {
 a {
     display: block;
     padding: 10px;
+    color: blue
+}
+
+a:visited { text-decoration: none; color: blue; }
+
+a:hover {
+    color: #b500ff;
+    transition-duration: 0.3s;
 }
 
 h1 {
@@ -80,9 +88,8 @@ tbody > tr:hover {
     padding: 3px;
 }
 
-a:hover {
-    color: #b500ff;
-    transition-duration: 0.3s;
+.photo_title {
+    text-decoration: underline;
 }
 
 img {

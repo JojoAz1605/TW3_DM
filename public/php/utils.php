@@ -1,5 +1,6 @@
 <?php
-function count_errors($errArray) {
+function count_errors(array $errArray): int
+{
     $res = count($errArray);
     foreach ($errArray as $value) {if (is_null($value)) {$res--;}}
     return $res;

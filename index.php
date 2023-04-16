@@ -1,8 +1,9 @@
 ﻿<?php
-// TODO NE PAS FAIRE TRANSITER DE REQUETE SQL VIA INPUT CACHE
-// TODO Utilisation des classes pour la manipulation des photos
 // TODO CSS des formulaires
 require_once("public/php/utils.php");
+require_once ("public/php/classes/Photo.php");
+use classes\Photo;
+
 $action = key_exists('action', $_GET)? trim($_GET['action']): null;
 $errors = array(
     "author" => null,
@@ -69,49 +70,35 @@ switch ($action) {
         // Nous traitons les résultats en boucle
         $body .= "<table><thead><tr><th>ID</th><th>Auteur</th><th>Titre</th><th>Actions</th></tr></thead><tbody>";
 
-        while($enregistrement = $query->fetch()) {
+        while($elem = $query->fetch()) {
             // Affichage des enregistrements
-            $idP = $enregistrement->idP;
-            $author = $enregistrement->author;
-            $title = $enregistrement->title;
-            $tab_Personne[$idP] = array($title, $title);
-            $body .= "<tr><td class='idP'>$idP</td><td class='author'>$author</td><td class='title'><a href='index.php?action=detail&idP=$idP'>$title</a></td><td class='actions'><a href='index.php?action=delete&idP=$idP'>Effacer</a><a href='index.php?action=update&idP=$idP'>Mettre à jour</a></td></tr>";
+            $photo = new Photo($elem->idP, $elem->dateS, $elem->author, $elem->title, $elem->descriptionP, $elem->dateP);
+            $body .= $photo->show_row();
         }
         $body .= "</tbody></table>";
         break;
     case "detail":
         $idP = key_exists('idP', $_GET)? $_GET['idP']: null;
         $connection = connecter();
-        $req = "SELECT * FROM Photo WHERE idP=:idP";
 
-        $prep_req = $connection->prepare($req);
-        $data = array(':idP' => $idP);
-        $prep_req->execute($data);
+        $prep_req = $connection->prepare("SELECT * FROM Photo WHERE idP=:idP");
+        $prep_req->execute(array(':idP' => $idP));
         $data_photo = $prep_req->fetch();
-        $author = $data_photo["author"];
-        $title = $data_photo["title"];
-        $dateP = $data_photo["dateP"];
-        $descriptionP = $data_photo["descriptionP"];
-        $dateS = $data_photo["dateS"];
 
-        $body = "<h2>$author: $title</h2>";
-        $body .= "<h3>Soumis le: $dateS</h3>";
-        $body .= "<h3>Prise le: $dateP</h3>";
-        $body .= "<p>Description: $descriptionP</p>";
-        $body .= "<img src='public/images/photos/$idP.png' alt='$title'>";
+        $photo = new Photo($idP, $data_photo["dateS"], $data_photo["author"], $data_photo["title"], $data_photo["descriptionP"], $data_photo["dateP"]);
+
+        $body = $photo->show_detail();
 
         $query = null;
         $connection = null;
         break;
     case "delete":
         $idP = key_exists('idP', $_GET)? $_GET['idP']: null;
-        $req = "DELETE FROM Photo WHERE idP=:ipP";
 
         $body = <<<HTML
         <form action='index.php?action=confirm' method='post'>
         <input type='hidden' name='type' value='confirmdelete'/>
         <input type='hidden' name='idP' value='$idP'/>
-        <input type='hidden' name='sql' value='$req'/>
         Etes vous sûr de vouloir supprimer cette photo ?
         <p><input type='submit' value='delete'><a href='index.php?action=list'>Annuler</a></p>
         </form>
@@ -134,16 +121,12 @@ switch ($action) {
         $descriptionP = $data_photo["descriptionP"];
 
         $body = "<h1>Mise à jour de la photo $idP</h1>";
-        $req = "UPDATE Photo SET author=:author, title=:title, descriptionP=:descriptionP, dateP=:dateP WHERE idP=:idP";
         include_once("public/php/pages/formulaire_update.php");
         break;
     case "confirm":
         $connection = connecter();
         $idP = key_exists('idP', $_POST)? $_POST['idP']: null;
         $type = key_exists('type', $_POST)? $_POST['type']: null;
-        $req = key_exists('sql', $_POST)? $_POST['sql']: null;
-
-        $prep_req = $connection->prepare($req);
         if ($type =='confirmupdate') {
             $body = "<h1>Mise à jour de la photo $idP</h1>";
             if (!isset($_POST["author"]) && !isset($_POST["title"]) && !isset($_POST["descriptionP"]) && !isset($_POST["dateP"])) {
@@ -151,7 +134,7 @@ switch ($action) {
             } else {
                 /* Attribution des variables */
                 $author = trim($_POST['author']);
-                $title = key_exists('title', $_GET) ? $_GET['title'] : "Sans titre";
+                $title = key_exists('title', $_POST) ? $_POST['title'] : "Sans titre";
                 $descriptionP = trim($_POST['descriptionP']);
                 $dateP = trim($_POST['dateP']);
 
@@ -162,6 +145,7 @@ switch ($action) {
                 if ($dateP == "") $errors["dateP"] = "Il manque la date de prise de la photo";
 
                 if (count_errors($errors) == 0) {
+                    $prep_req = $connection->prepare("UPDATE Photo SET author=:author, title=:title, descriptionP=:descriptionP, dateP=:dateP WHERE idP=:idP");
                     $prep_req->execute(array(
                         ":author" => $author,
                         ":title" => $title,
@@ -169,6 +153,8 @@ switch ($action) {
                         ":dateP" => $dateP,
                         ":idP" => $idP
                     ));
+
+                    /* vérifie si une nouvelle image a été envoyée */
                     if (isset($_FILES["photo"])) {
                         $photo = $_FILES["photo"];
                         move_uploaded_file($photo["tmp_name"], "public/images/photos/" . $idP . ".png");
@@ -180,6 +166,7 @@ switch ($action) {
             }
         }
         else {
+            $prep_req = $connection->prepare("DELETE FROM Photo WHERE idP=:ipP");
             $prep_req->execute(array(':ipP' => $idP));
             unlink("public/images/photos/$idP.png");
             $body = "<h2>Photo $idP supprimée!</h2>" ;
