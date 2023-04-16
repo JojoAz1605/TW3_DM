@@ -26,6 +26,7 @@ a {
 
 h1 {
     color: palevioletred;
+    text-decoration: underline;
 }
 
 p {
@@ -33,8 +34,55 @@ p {
 }
 
 table {
+    overflow-x:auto;
     display: block;
-    padding: 10px;
+    border-collapse: collapse;
+    min-width: 270px;
+    max-width: 370px;
+}
+
+table {
+    border-radius: 7px;
+    margin: auto;
+}
+table, td, tr {
+    border: 2px solid;
+    width: 50%;
+    color: blueviolet;
+}
+
+tbody > tr {
+    white-space: nowrap;
+}
+
+tbody > tr:hover {
+    transition-duration: 0.2s;
+    background-color: #e3a9e1;
+}
+
+.idP {
+    width: 15px;
+}
+
+.author {
+    width: 50px;
+}
+
+.title {
+    width: 200px;
+}
+
+.actions {
+    width: 50px;
+}
+
+.actions > a {
+    padding: 3px;
+}
+
+a:hover {
+    color: #b500ff;
+    transition-duration: 0.3s;
 }
 
 img {

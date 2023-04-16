@@ -1,5 +1,7 @@
-<?php
+﻿<?php
 // TODO NE PAS FAIRE TRANSITER DE REQUETE SQL VIA INPUT CACHE
+// TODO Utilisation des classes pour la manipulation des photos
+// TODO CSS des formulaires
 require_once("public/php/utils.php");
 $action = key_exists('action', $_GET)? trim($_GET['action']): null;
 $errors = array(
@@ -23,7 +25,7 @@ switch ($action) {
         } else {
             /* Attribution des variables */
             $author = trim($_POST['author']);
-            $title = key_exists('title', $_GET)? $_GET['title']: "Sans titre";
+            $title = key_exists('title', $_POST)? $_POST['title']: "Sans titre";
             $descriptionP = trim($_POST['descriptionP']);
             $dateP = trim($_POST['dateP']);
             $photo = $_FILES["photo"];
@@ -47,7 +49,7 @@ switch ($action) {
                 );
                 $prep_req->execute($data);
                 move_uploaded_file($photo["tmp_name"], "public/images/photos/" . $connection->lastInsertId() . ".png");
-                $body .= "Photo ajoutée!";
+                $body .= "<h2>Photo ajoutée!</h2>";
                 $connection = null;
                 $req = null;
             } else {include_once("public/php/pages/formulaire.php"); }
@@ -73,7 +75,7 @@ switch ($action) {
             $author = $enregistrement->author;
             $title = $enregistrement->title;
             $tab_Personne[$idP] = array($title, $title);
-            $body .= "<tr><td>$idP</td><td>$author</td><td><a href='index.php?action=detail&idP=$idP'>$title</a></td><td><a href='index.php?action=delete&idP=$idP'>Effacer</a><a href='index.php?action=update&idP=$idP'>Mettre à jour</a></td></tr>";
+            $body .= "<tr><td class='idP'>$idP</td><td class='author'>$author</td><td class='title'><a href='index.php?action=detail&idP=$idP'>$title</a></td><td class='actions'><a href='index.php?action=delete&idP=$idP'>Effacer</a><a href='index.php?action=update&idP=$idP'>Mettre à jour</a></td></tr>";
         }
         $body .= "</tbody></table>";
         break;
@@ -105,13 +107,15 @@ switch ($action) {
         $idP = key_exists('idP', $_GET)? $_GET['idP']: null;
         $req = "DELETE FROM Photo WHERE idP=:ipP";
 
-        $body = "<form action='index.php?action=confirm' method='post'>";
-        $body .= "<input type='hidden' name='type' value='confirmdelete'/>";
-        $body .= "<input type='hidden' name='idP' value='$idP'/>";
-        $body .= "<input type='hidden' name='sql' value='$req'/>";
-        $body .= "Etes vous sûr de vouloir supprimer cette photo ?";
-        $body .= "<p><input type='submit' value='delete'><a href='index.php?action=list'>Annuler</a></p>";
-        $body .= "</form>";
+        $body = <<<HTML
+        <form action='index.php?action=confirm' method='post'>
+        <input type='hidden' name='type' value='confirmdelete'/>
+        <input type='hidden' name='idP' value='$idP'/>
+        <input type='hidden' name='sql' value='$req'/>
+        Etes vous sûr de vouloir supprimer cette photo ?
+        <p><input type='submit' value='delete'><a href='index.php?action=list'>Annuler</a></p>
+        </form>
+        HTML;
         break;
     case "update":
         $idP = key_exists('idP', $_GET)? $_GET['idP']: null;
