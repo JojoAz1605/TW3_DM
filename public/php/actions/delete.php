@@ -12,6 +12,6 @@ $body = <<<HTML
         <input type='hidden' name='type' value='confirmdelete'/>
         <input type='hidden' name='idP' value='$idP'/>
         Etes vous sûr de vouloir supprimer cette photo ?
-        <p><input type='submit' value='delete'><a href='index.php?action=list'>Annuler</a></p>
+        <p><input class="confirm-button" type='submit' value='delete'><a href='index.php?action=list'>Annuler</a></p>
         </form>
         HTML;

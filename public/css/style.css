@@ -12,6 +12,11 @@ header {
 
 nav {
     margin-top: -100px;
+    margin-left: -50px;
+}
+
+li {
+    background-color: rgba(227, 169, 225, 0.6);
 }
 
 li {
@@ -72,6 +77,27 @@ tbody > tr:hover {
     background-color: #e3a9e1;
 }
 
+label {
+    display: block;
+    padding-bottom: 10px;
+}
+
+button {
+    display: block;
+    margin-left: 50%;
+}
+
+textarea {
+    vertical-align: middle;
+}
+
+textarea, input, img {
+    background-color: lightgreen;
+    border: 2px solid lightgreen;
+    border-radius: 5px;
+    transition-duration: 0.2s;
+}
+
 .idP {
     width: 15px;
 }
@@ -84,8 +110,17 @@ tbody > tr:hover {
     width: 200px;
 }
 
-.actions {
-    width: 50px;
+#delete {
+    color: red;
+}
+
+#delete:hover {
+    color: tomato;
+}
+
+input.confirm-button:hover {
+    background-color: tomato;
+    transition-duration: 0.2s;
 }
 
 .actions > a {

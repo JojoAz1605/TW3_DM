@@ -153,7 +153,7 @@ class Photo
      */
     public function show_row(): string
     {
-        return "<tr><td class='idP'>$this->idP</td><td class='author'>$this->author</td><td class='title'><a href='index.php?action=detail&idP=$this->idP'>$this->title</a></td><td class='actions'><a href='index.php?action=delete&idP=$this->idP'>Effacer</a><a href='index.php?action=update&idP=$this->idP'>Mettre à jour</a></td></tr>";
+        return "<tr><td class='idP'>$this->idP</td><td class='author'>$this->author</td><td class='title'><a href='index.php?action=detail&idP=$this->idP'>$this->title</a></td><td class='actions'><a id='delete' href='index.php?action=delete&idP=$this->idP'>Effacer</a><a href='index.php?action=update&idP=$this->idP'>Mettre à jour</a></td></tr>";
     }
 
     /**
@@ -167,6 +167,8 @@ class Photo
                 <p>Description: $this->descriptionP</p>              
                 <img src='public/images/photos/$this->idP.png' alt='$this->title'>
                 <p>La photo a été soumise le: <code>$this->dateS</code>, et prise le <code>$this->dateP</code></p>
+                <a class="actions" id="update" href="/index.php?action=update&idP=$this->idP">Mettre à jour la photo</a>
+                <a class="actions" id="delete" href="/index.php?action=delete&idP=$this->idP">Supprimer la photo</a>
                 HTML;
     }
 

@@ -39,7 +39,7 @@ if (!isset($_POST["author"]) && !isset($_POST["descriptionP"]) && !isset($_POST[
         <input type='hidden' name='descriptionP' value='$descriptionP'/>
         <input type='hidden' name='dateP' value='$dateP'/>
         Etes vous sûr de vouloir mettre à jour cette photo ?
-        <p><input type='submit' value='Mettre à jour'><a href='index.php?action=list'>Annuler</a></p>
+        <p><input class="confirm-button" type='submit' value='Mettre à jour'><a href='index.php?action=list'>Annuler</a></p>
         </form>
         HTML;
     } else {
