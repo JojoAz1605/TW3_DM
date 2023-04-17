@@ -3,6 +3,7 @@
  * La page "à propos" du site!
  * @author Joris MASSON
  */
+// TODO finir le about
 $body = <<<HTML
 <h2>À propos!</h2>
 

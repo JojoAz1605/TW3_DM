@@ -10,16 +10,16 @@ namespace classes;
 class Photo
 {
     /**
-     * @var int $idP L'ID de la photo.
+     * @var int|null $idP L'ID de la photo.
      */
-    private int $idP;
+    private int|null $idP;
 
     /**
-     * @var string $dateS La date de soumission de la photo
+     * @var string|null $dateS La date de soumission de la photo
      *
      * Format: <code>Y-m-d H:i:s</code>(format TIMESTAMP SQL).
      */
-    private string $dateS;
+    private string|null $dateS;
 
     /**
      * @var string $author L'auteur de la photo.

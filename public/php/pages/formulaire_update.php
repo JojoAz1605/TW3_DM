@@ -6,7 +6,7 @@
  */
 
 $body .= <<<HTML
-<form method="post" action="/index.php?action=confirm" enctype="multipart/form-data">
+<form method="post" action="/index.php?action=update&idP=$idP" enctype="multipart/form-data">
     <label>Auteur
         <input type="text" name="author" value="$author">
         <span class="error">{$errors["author"]}</span><br/>
@@ -31,9 +31,6 @@ $body .= <<<HTML
         <input type="file" name="photo">
     </label>
     <img src='public/images/photos/$idP.png' alt='$title'>
-    
-    <input type='hidden' name='type' value='confirmupdate'>
-    <input type='hidden' name='idP' value=$idP>
     
     <button type="submit">Enregistrer</button>
 </form>
