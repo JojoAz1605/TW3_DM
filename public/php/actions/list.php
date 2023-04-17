@@ -3,10 +3,9 @@ use classes\Photo;
 
 $body = "<h2>Liste des photos!</h2>";
 $connection = connecter();
-$req = "SELECT * FROM Photo";
 
-// On envois la requète
-$query  = $connection->query($req);
+// On envoie la requête
+$query  = $connection->query("SELECT * FROM Photo");
 
 // On indique que nous utiliserons les résultats en tant qu'objet
 $query->setFetchMode(PDO::FETCH_OBJ);

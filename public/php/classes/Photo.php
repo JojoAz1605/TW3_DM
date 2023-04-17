@@ -39,6 +39,16 @@ class Photo {
                 HTML;
     }
 
+    public static function fetch_all_values($idP) {
+        $connection = connecter();
+
+        $prep_req = $connection->prepare("SELECT * FROM Photo WHERE idP=:idP");
+        $prep_req->execute(array(':idP' => $idP));
+        $connection = null;
+
+        return $prep_req->fetch();
+    }
+
     public function insert_to_database() : int {
         $connection = connecter();  // on se connecte à la database
         $prep_req = $connection->prepare("INSERT INTO Photo (dateS, author, title, descriptionP, dateP) VALUE (NOW(), :author, :title, :descriptionP, :dateP)");
@@ -61,6 +71,25 @@ class Photo {
         $prep_req->execute(array(':ipP' => $idP));
         unlink("public/images/photos/$idP.png");
 
+        $connection = null;
+    }
+
+    public function update_in_database(): void {
+        $connection = connecter();
+        $prep_req = $connection->prepare("UPDATE Photo SET author=:author, title=:title, descriptionP=:descriptionP, dateP=:dateP WHERE idP=:idP");
+        $prep_req->execute(array(
+            ":author" => $this->author,
+            ":title" => $this->title,
+            ":descriptionP" => $this->descriptionP,
+            ":dateP" => $this->dateP,
+            ":idP" => $this->idP
+        ));
+
+        /* vérifie si une nouvelle image a été envoyée */
+        if (isset($_FILES["photo"])) {
+            $file = $_FILES["photo"];
+            move_uploaded_file($file["tmp_name"], "public/images/photos/$this->idP.png");
+        }
         $connection = null;
     }
 }
