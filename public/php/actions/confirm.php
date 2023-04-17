@@ -1,7 +1,20 @@
 <?php
+/**
+ * Action à réaliser lors de <code>confirm</code>: update ou supprime une photo de la base de données.
+ *
+ * L'action à réaliser est décidée grâce à une valeur transmise via POST: <code>type</code>:
+ *
+ * -<code>confirmupdate</code> -> update une photo.
+ *
+ * -<code>confirmdelete</code> -> supprime une photo.
+ * @author Joris MASSON
+ * @package actions
+ * @uses Photo
+ */
 
 use classes\Photo;
 
+/* récupère les valeurs de la requête POST */
 $idP = key_exists('idP', $_POST) ? $_POST['idP'] : null;
 $type = key_exists('type', $_POST) ? $_POST['type'] : null;
 
@@ -31,7 +44,16 @@ if ($type == 'confirmupdate') {
     $body = "<h2>Photo $idP supprimée!</h2>";
 }
 
-function check_errors_confirm($author, $descriptionP, $dateP): array
+/**
+ * Check les erreurs venant des input du formulaire, pour l'action <code>confirm</code>.
+ *
+ * Plus précisément pour <code>confirmupdate</delete>.
+ * @param string $author Valeur pour <code>author</code>
+ * @param string $descriptionP Valeur pour <code>descriptionP</code>
+ * @param string $dateP Valeur pour <code>dateP</code>
+ * @return array La liste des erreurs reconnues.
+ */
+function check_errors_confirm(string $author, string $descriptionP, string $dateP): array
 {
     $errors = array("author" => null, "descriptionP" => null, "dateP" => null);
     if ($author == "") $errors["author"] = "Il manque le nom de l'auteur";

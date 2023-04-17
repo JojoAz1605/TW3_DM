@@ -1,4 +1,9 @@
 <?php
+/**
+ * Le formulaire d'ajout d'une photo dans la base de données.
+ * @author Joris MASSON
+ * @author Le cours
+ */
 $body .= <<<HTML
 <form method="post" action="/index.php?action=add" enctype="multipart/form-data">
     <label>Auteur

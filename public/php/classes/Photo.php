@@ -2,16 +2,57 @@
 
 namespace classes;
 
+/**
+ * Classe principale représentant les photos!
+ * @author Joris MASSON
+ * @package classes
+ */
 class Photo
 {
-    private $idP;
-    private $dateS;
-    private $author;
-    private $title;
-    private $descriptionP;
-    private $dateP;
+    /**
+     * @var int $idP L'ID de la photo.
+     */
+    private int $idP;
 
-    public function __construct($author, $title, $descriptionP, $dateP, $idP = null, $dateS = null)
+    /**
+     * @var string $dateS La date de soumission de la photo
+     *
+     * Format: <code>Y-m-d H:i:s</code>(format TIMESTAMP SQL).
+     */
+    private string $dateS;
+
+    /**
+     * @var string $author L'auteur de la photo.
+     */
+    private string $author;
+
+    /**
+     * @var string $title Le titre de la photo(optionnel).
+     */
+    private string $title;
+
+    /**
+     * @var string $descriptionP La description de la photo.
+     */
+    private string $descriptionP;
+
+    /**
+     * @var string $dateP La date de prise de la photo.
+     *
+     * Format: <code>Y-m-d</code>(format DATE SQL).
+     */
+    private string $dateP;
+
+    /**
+     * Constructeur de la photo, initialise les attributs.
+     * @param string $author L'auteur de la photo
+     * @param string $title Le titre de la photo
+     * @param string $descriptionP La description de la photo
+     * @param string $dateP La date de prise de la photo(<code>Y-m-d</code>)
+     * @param int|null $idP L'ID de la photo(pas obligatoire)
+     * @param string|null $dateS La date de soumission de la photo(<code>Y-m-d H:i:s</code>)
+     */
+    public function __construct(string $author, string $title, string $descriptionP, string $dateP, int $idP = null, string $dateS = null)
     {
         $this->idP = $idP;
         $this->dateS = $dateS;
@@ -21,7 +62,12 @@ class Photo
         $this->dateP = $dateP;
     }
 
-    public static function fetch_all_values($idP)
+    /**
+     * Récupère les valeurs d'une photo d'un ID donné.
+     * @param int $idP l'ID de la photo à récupérer
+     * @return array
+     */
+    public static function fetch_all_values(int $idP): array
     {
         $connection = connecter();
 
@@ -32,7 +78,12 @@ class Photo
         return $prep_req->fetch();
     }
 
-    public static function delete_from_database($idP): void
+    /**
+     * Supprime la photo d'ID donné.
+     * @param int $idP L'ID de la photo à supprimer
+     * @return void
+     */
+    public static function delete_from_database(int $idP): void
     {
         $connection = connecter();
         $prep_req = $connection->prepare("DELETE FROM Photo WHERE idP=:ipP");
@@ -42,41 +93,73 @@ class Photo
         $connection = null;
     }
 
+    /**
+     * Getter pour idP
+     * @return int idP
+     */
     public function get_idP(): int
     {
         return $this->idP;
     }
 
+    /**
+     * Getter pour dateS
+     * @return string dateS
+     */
     public function get_dateS(): string
     {
         return $this->dateS;
     }
 
+    /**
+     * Getter pour author
+     * @return string author
+     */
     public function get_author(): string
     {
         return $this->author;
     }
 
+    /**
+     * Getter pour title
+     * @return string title
+     */
     public function get_title(): string
     {
         return $this->title;
     }
 
+    /**
+     * Getter pour descriptionP
+     * @return string descriptionP
+     */
     public function get_descriptionP(): string
     {
         return $this->descriptionP;
     }
 
+    /**
+     * Getter pour dateP
+     * @return string dateP
+     */
     public function get_dateP(): string
     {
         return $this->dateP;
     }
 
+    /**
+     * Affichage HTML en ligne de tableau de la photo.
+     * @return string HTML
+     */
     public function show_row(): string
     {
         return "<tr><td class='idP'>$this->idP</td><td class='author'>$this->author</td><td class='title'><a href='index.php?action=detail&idP=$this->idP'>$this->title</a></td><td class='actions'><a href='index.php?action=delete&idP=$this->idP'>Effacer</a><a href='index.php?action=update&idP=$this->idP'>Mettre à jour</a></td></tr>";
     }
 
+    /**
+     * Affichage HTML détaillé de la photo.
+     * @return string HTML
+     */
     public function show_detail(): string
     {
         return <<<HTML
@@ -87,6 +170,10 @@ class Photo
                 HTML;
     }
 
+    /**
+     * Insert dans la base de données les attributs actuels.
+     * @return int l'ID de la photo une fois insérée dans la base de données
+     */
     public function insert_to_database(): int
     {
         $connection = connecter();  // on se connecte à la database
@@ -100,10 +187,15 @@ class Photo
         $this->idP = $connection->lastInsertId();
         $this->dateS = date('Y-m-d H:i:s', time());
         $connection = null;  // on ferme la connexion
+        move_uploaded_file($_FILES["photo"]["tmp_name"], "public/images/photos/$this->idP.png");
 
         return $this->idP;
     }
 
+    /**
+     * Met à jour la photo dans la base de données avec les valeurs actuelles.
+     * @return void
+     */
     public function update_in_database(): void
     {
         $connection = connecter();

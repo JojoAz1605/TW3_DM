@@ -1,4 +1,15 @@
 <?php
+/**
+ * Fonctions utiles au bon fonctionnement du site
+ * @author Joris MASSON
+ * @author Le cours
+ */
+
+/**
+ * Compte les erreurs dans un array d'erreurs.
+ * @param array $errArray un array d'erreurs
+ * @return int le nombre d'erreurs
+ */
 function count_errors(array $errArray): int
 {
     $res = count($errArray);
@@ -10,7 +21,11 @@ function count_errors(array $errArray): int
     return $res;
 }
 
-function connecter()
+/**
+ * Se connecte à la base de données, et renvoie sa connexion.
+ * @return PDO|void
+ */
+function connecter(): PDO
 {
     try {
         // Options de connection

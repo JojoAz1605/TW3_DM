@@ -1,4 +1,11 @@
 <?php
+/**
+ * Action à réaliser lors de <code>list</code>: liste toutes les photos de la base de données.
+ * @author Joris MASSON
+ * @author Le cours
+ * @package actions
+ * @uses Photo
+ */
 
 use classes\Photo;
 

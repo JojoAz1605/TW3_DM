@@ -1,4 +1,9 @@
 <?php
+/**
+ * Le formulaire d'update d'une photo dans la base de données.
+ * @author Joris MASSON
+ * @author Le cours
+ */
 
 $body .= <<<HTML
 <form method="post" action="/index.php?action=confirm" enctype="multipart/form-data">

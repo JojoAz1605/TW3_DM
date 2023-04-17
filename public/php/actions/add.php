@@ -1,4 +1,10 @@
 <?php
+/**
+ * Action à réaliser lors de <code>add</code>: ajoute une photo à la base de données.
+ * @author Joris MASSON
+ * @package actions
+ * @uses Photo
+ */
 
 use classes\Photo;
 
@@ -21,14 +27,21 @@ if (!isset($_POST["author"]) && !isset($_POST["descriptionP"]) && !isset($_POST[
 
     if (count_errors($errors) == 0) {  // s'il n'y a pas d'erreurs
         $idP = $photo->insert_to_database();
-        move_uploaded_file($file["tmp_name"], "public/images/photos/$idP.png");
         $body .= "<h2>Photo ajoutée!</h2>";
     } else {
         include_once("public/php/pages/formulaire.php");
     }
 }
 
-function check_errors_add($author, $descriptionP, $dateP, $file): array
+/**
+ * Check les erreurs venant des input du formulaire, pour l'action <code>add</code>.
+ * @param string $author Valeur pour <code>author</code>
+ * @param string $descriptionP Valeur pour <code>descriptionP</code>
+ * @param string $dateP Valeur pour <code>dateP</code>
+ * @param array $file La photo
+ * @return array La liste des erreurs reconnues.
+ */
+function check_errors_add(string $author, string $descriptionP, string $dateP, array $file): array
 {
     $errors = array("author" => null, "descriptionP" => null, "dateP" => null, "photo" => null);  // pour la gestion des erreurs de formulaire
     if ($author == "") $errors["author"] = "Il manque le nom de l'auteur";

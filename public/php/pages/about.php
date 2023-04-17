@@ -1,4 +1,8 @@
 <?php
+/**
+ * La page "à propos" du site!
+ * @author Joris MASSON
+ */
 $body = <<<HTML
 <h2>À propos!</h2>
 

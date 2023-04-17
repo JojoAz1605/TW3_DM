@@ -1,4 +1,10 @@
 <?php
+/**
+ * Action à réaliser lors de <code>detail</code>: affiche le détail d'une photo.
+ * @author Joris MASSON
+ * @package actions
+ * @uses Photo
+ */
 
 use classes\Photo;
 
@@ -11,7 +17,7 @@ $data_photo = $prep_req->fetch();
 
 $photo = new Photo($data_photo["author"], $data_photo["title"], $data_photo["descriptionP"], $data_photo["dateP"], $idP, $data_photo["dateS"]);
 
-$body = $photo->show_detail();
+$body = $photo->show_detail();  // demande le détail de la photo et l'affiche
 
 $query = null;
 $connection = null;

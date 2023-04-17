@@ -1,4 +1,9 @@
 ﻿<?php
+/**
+ * Index du site, c'est ici que tout est décidé.
+ * @author Joris MASSON
+ */
+
 // TODO CSS des formulaires
 require_once("public/php/utils.php");
 require_once("public/php/classes/Photo.php");
@@ -41,4 +46,4 @@ switch ($action) {
 }
 
 include_once("public/php/pages/menu.php");  // gère le nav
-include_once("public/php/pages/squelette.php");  // gère la page principale
+include_once("public/html/squelette.html");  // gère la page principale

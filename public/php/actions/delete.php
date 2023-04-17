@@ -1,4 +1,10 @@
 <?php
+/**
+ * Action à réaliser lors de <code>delete</code>: prépare la suppression d'une photo en demandant confirmation.
+ * @author Joris MASSON
+ * @package actions
+ */
+
 $idP = key_exists('idP', $_GET) ? $_GET['idP'] : null;
 
 $body = <<<HTML

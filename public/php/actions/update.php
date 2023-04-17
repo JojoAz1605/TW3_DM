@@ -1,4 +1,12 @@
 <?php
+// TODO ramener un peu du confirm ici(tout ce qui est en rapport avec l'affichage/gestion du formulaire)
+
+/**
+ * Action à réaliser lors de <code>update</code>: affiche le formulaire pour update une photo dans la base de données.
+ * @author Joris MASSON
+ * @package actions
+ * @uses Photo
+ */
 
 use classes\Photo;
 
