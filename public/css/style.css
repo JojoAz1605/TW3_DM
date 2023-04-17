@@ -15,13 +15,16 @@ nav {
     margin-left: -50px;
 }
 
-li {
-    background-color: rgba(227, 169, 225, 0.6);
+.about {
+    margin-left: 20%;
+    margin-right: 20%;
+    text-align: left;
 }
 
-li {
+li.menu {
     float: left;
     list-style-type: none;
+    background-color: rgba(227, 169, 225, 0.6);
 }
 
 a {

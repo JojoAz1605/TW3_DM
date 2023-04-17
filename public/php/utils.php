@@ -23,7 +23,7 @@ function count_errors(array $errArray): int
 
 /**
  * Se connecte à la base de données, et renvoie sa connexion.
- * @return PDO|void
+ * @return PDO
  */
 function connecter(): PDO
 {
@@ -33,9 +33,8 @@ function connecter(): PDO
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         );
-        $DATABASE_DNS = "mysql:host=jo.narukami-edition.fr;dbname=TW3;charset=utf8";
-        $DATABASE_USERNAME = "jo";
-        $DATABASE_PASSWORD = "20051805";
+
+        include_once "admin/php/logins.php";
 
         $connection = new PDO($DATABASE_DNS, $DATABASE_USERNAME, $DATABASE_PASSWORD, $options);
         return ($connection);

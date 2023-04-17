@@ -153,7 +153,9 @@ class Photo
      */
     public function show_row(): string
     {
-        return "<tr><td class='idP'>$this->idP</td><td class='author'>$this->author</td><td class='title'><a href='index.php?action=detail&idP=$this->idP'>$this->title</a></td><td class='actions'><a id='delete' href='index.php?action=delete&idP=$this->idP'>Effacer</a><a href='index.php?action=update&idP=$this->idP'>Mettre à jour</a></td></tr>";
+        $auteur = htmlspecialchars($this->author);
+        $titre = htmlspecialchars($this->title);
+        return "<tr><td class='idP'>$this->idP</td><td class='author'>$auteur</td><td class='title'><a href='index.php?action=detail&idP=$this->idP'>$titre</a></td><td class='actions'><a id='delete' href='index.php?action=delete&idP=$this->idP'>Effacer</a><a href='index.php?action=update&idP=$this->idP'>Mettre à jour</a></td></tr>";
     }
 
     /**
@@ -162,9 +164,12 @@ class Photo
      */
     public function show_detail(): string
     {
+        $auteur = htmlspecialchars($this->author);
+        $titre = htmlspecialchars($this->title);
+        $desc = htmlspecialchars($this->descriptionP);
         return <<<HTML
-                <h2>$this->author: <span class="photo_title">$this->title</span></h2>
-                <p>Description: $this->descriptionP</p>              
+                <h2>$auteur: <span class="photo_title">$titre</span></h2>
+                <p>Description: $desc</p>              
                 <img src='public/images/photos/$this->idP.png' alt='$this->title'>
                 <p>La photo a été soumise le: <code>$this->dateS</code>, et prise le <code>$this->dateP</code></p>
                 <a class="actions" id="update" href="/index.php?action=update&idP=$this->idP">Mettre à jour la photo</a>
