@@ -1,5 +1,5 @@
 <?php
-$idP = key_exists('idP', $_GET)? $_GET['idP']: null;
+$idP = key_exists('idP', $_GET) ? $_GET['idP'] : null;
 
 $body = <<<HTML
         <form action='index.php?action=confirm' method='post'>

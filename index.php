@@ -1,13 +1,17 @@
 ﻿<?php
 // TODO CSS des formulaires
 require_once("public/php/utils.php");
-require_once ("public/php/classes/Photo.php");
+require_once("public/php/classes/Photo.php");
 
-$action = key_exists('action', $_GET)? trim($_GET['action']): null;
+$action = key_exists('action', $_GET) ? trim($_GET['action']) : null;
 
 /* variables importantes */
 $errors = array("author" => null, "descriptionP" => null, "dateP" => null, "photo" => null);  // pour la gestion des erreurs de formulaire
-$author = null; $title = null; $descriptionP = null; $dateP = null; $photo = null;  // pour éviter les erreurs
+$author = null;
+$title = null;
+$descriptionP = null;
+$dateP = null;
+$photo = null;  // pour éviter les erreurs
 
 switch ($action) {
     case "add":

@@ -1,7 +1,8 @@
 <?php
+
 use classes\Photo;
 
-$idP = key_exists('idP', $_GET)? $_GET['idP']: null;
+$idP = key_exists('idP', $_GET) ? $_GET['idP'] : null;
 
 $data_photo = Photo::fetch_all_values($idP);
 

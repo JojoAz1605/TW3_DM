@@ -2,7 +2,11 @@
 function count_errors(array $errArray): int
 {
     $res = count($errArray);
-    foreach ($errArray as $value) {if (is_null($value)) {$res--;}}
+    foreach ($errArray as $value) {
+        if (is_null($value)) {
+            $res--;
+        }
+    }
     return $res;
 }
 
@@ -17,12 +21,12 @@ function connecter()
         $DATABASE_DNS = "mysql:host=jo.narukami-edition.fr;dbname=TW3;charset=utf8";
         $DATABASE_USERNAME = "jo";
         $DATABASE_PASSWORD = "20051805";
-        
+
         $connection = new PDO($DATABASE_DNS, $DATABASE_USERNAME, $DATABASE_PASSWORD, $options);
-        return($connection);
+        return ($connection);
 
 
-    } catch ( Exception $e ) {
+    } catch (Exception $e) {
         echo "Connection à MySQL impossible : ", $e->getMessage();
         die();
     }

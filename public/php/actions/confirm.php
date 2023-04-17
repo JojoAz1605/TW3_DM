@@ -1,8 +1,9 @@
 <?php
+
 use classes\Photo;
 
-$idP = key_exists('idP', $_POST)? $_POST['idP']: null;
-$type = key_exists('type', $_POST)? $_POST['type']: null;
+$idP = key_exists('idP', $_POST) ? $_POST['idP'] : null;
+$type = key_exists('type', $_POST) ? $_POST['type'] : null;
 
 if ($type == 'confirmupdate') {
     $body = "<h1>Mise à jour de la photo $idP</h1>";
@@ -25,13 +26,13 @@ if ($type == 'confirmupdate') {
             include_once("public/php/pages/formulaire_update.php");
         }
     }
-}
-else if ($type == "confirmdelete") {
+} else if ($type == "confirmdelete") {
     Photo::delete_from_database($idP);
-    $body = "<h2>Photo $idP supprimée!</h2>" ;
+    $body = "<h2>Photo $idP supprimée!</h2>";
 }
 
-function check_errors_confirm($author, $descriptionP, $dateP): array {
+function check_errors_confirm($author, $descriptionP, $dateP): array
+{
     $errors = array("author" => null, "descriptionP" => null, "dateP" => null);
     if ($author == "") $errors["author"] = "Il manque le nom de l'auteur";
     if ($descriptionP == "") $errors["descriptionP"] = "Il manque une description à la photo";
