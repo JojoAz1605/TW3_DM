@@ -27,13 +27,21 @@ li.menu {
     background-color: rgba(227, 169, 225, 0.6);
 }
 
+a:visited.delete {
+    color: red;
+}
+
+.error {
+    color: red;
+}
+
 a {
     display: block;
     padding: 10px;
     color: blue
 }
 
-a:visited {
+a:visited > :not(.delete) {
     text-decoration: none;
     color: blue;
 }
@@ -113,11 +121,7 @@ textarea, input, img {
     width: 200px;
 }
 
-#delete {
-    color: red;
-}
-
-#delete:hover {
+.delete:hover {
     color: tomato;
 }
 
@@ -137,3 +141,4 @@ input.confirm-button:hover {
 img {
     max-width: 500px;
 }
+

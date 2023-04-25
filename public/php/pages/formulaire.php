@@ -4,8 +4,15 @@
  * @author Joris MASSON
  * @author Le cours
  */
+if (!empty($photo)) {
+    $author = $photo->get_author();
+    $title = $photo->get_title();
+    $descriptionP = $photo->get_descriptionP();
+    $dateP = $photo->get_dateP();
+}
+
 $body .= <<<HTML
-<form method="post" action="/index.php?action=add" enctype="multipart/form-data">
+<form method="post" action="index.php?action=add" enctype="multipart/form-data">
     <label>Auteur
         <input type="text" name="author" value="$author">
         <span class="error">{$errors["author"]}</span><br/>

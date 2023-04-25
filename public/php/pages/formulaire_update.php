@@ -6,7 +6,7 @@
  */
 
 $body .= <<<HTML
-<form method="post" action="/index.php?action=update&idP=$idP" enctype="multipart/form-data">
+<form method="post" action="index.php?action=update&idP=$idP" enctype="multipart/form-data">
     <label>Auteur
         <input type="text" name="author" value="$author">
         <span class="error">{$errors["author"]}</span><br/>

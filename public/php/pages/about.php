@@ -3,7 +3,6 @@
  * La page "à propos" du site!
  * @author Joris MASSON
  */
-// TODO finir le about
 $body = <<<HTML
 <h2>À propos!</h2>
 
@@ -27,6 +26,7 @@ $body = <<<HTML
     </li>
     <li>Demande de confirmation avant de supprimer ou de mettre à jour une photo dans la base de données</li>
     <li>Manipulation des photos avec une classe <code>Photo</code></li>
+    <li>Documentation du code</li>
     <li>[Complément] Les photos sont illustrées par... des photos!</li>
 </ul>
 

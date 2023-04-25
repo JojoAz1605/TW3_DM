@@ -10,49 +10,49 @@ namespace classes;
 class Photo
 {
     /**
-     * @var int|null $idP L'ID de la photo.
+     * @var $idP L'ID de la photo.
      */
-    private int|null $idP;
+    private $idP;
 
     /**
-     * @var string|null $dateS La date de soumission de la photo
+     * @var $dateS La date de soumission de la photo
      *
      * Format: <code>Y-m-d H:i:s</code>(format TIMESTAMP SQL).
      */
-    private string|null $dateS;
+    private $dateS;
 
     /**
-     * @var string $author L'auteur de la photo.
+     * @var $author L'auteur de la photo.
      */
-    private string $author;
+    private $author;
 
     /**
-     * @var string $title Le titre de la photo(optionnel).
+     * @var $title Le titre de la photo(optionnel).
      */
-    private string $title;
+    private $title;
 
     /**
-     * @var string $descriptionP La description de la photo.
+     * @var $descriptionP La description de la photo.
      */
-    private string $descriptionP;
+    private $descriptionP;
 
     /**
-     * @var string $dateP La date de prise de la photo.
+     * @var $dateP La date de prise de la photo.
      *
      * Format: <code>Y-m-d</code>(format DATE SQL).
      */
-    private string $dateP;
+    private $dateP;
 
     /**
      * Constructeur de la photo, initialise les attributs.
-     * @param string $author L'auteur de la photo
-     * @param string $title Le titre de la photo
-     * @param string $descriptionP La description de la photo
-     * @param string $dateP La date de prise de la photo(<code>Y-m-d</code>)
-     * @param int|null $idP L'ID de la photo(pas obligatoire)
-     * @param string|null $dateS La date de soumission de la photo(<code>Y-m-d H:i:s</code>)
+     * @param $author L'auteur de la photo
+     * @param $title Le titre de la photo
+     * @param $descriptionP La description de la photo
+     * @param $dateP La date de prise de la photo(<code>Y-m-d</code>)
+     * @param $idP L'ID de la photo(pas obligatoire)
+     * @param $dateS La date de soumission de la photo(<code>Y-m-d H:i:s</code>)
      */
-    public function __construct(string $author, string $title, string $descriptionP, string $dateP, int $idP = null, string $dateS = null)
+    public function __construct(string $author, string $title = "Sans titre", string $descriptionP, string $dateP, int $idP = null, string $dateS = null)
     {
         $this->idP = $idP;
         $this->dateS = $dateS;
@@ -153,9 +153,7 @@ class Photo
      */
     public function show_row(): string
     {
-        $auteur = htmlspecialchars($this->author);
-        $titre = htmlspecialchars($this->title);
-        return "<tr><td class='idP'>$this->idP</td><td class='author'>$auteur</td><td class='title'><a href='index.php?action=detail&idP=$this->idP'>$titre</a></td><td class='actions'><a id='delete' href='index.php?action=delete&idP=$this->idP'>Effacer</a><a href='index.php?action=update&idP=$this->idP'>Mettre à jour</a></td></tr>";
+        return "<tr><td class='idP'>$this->idP</td><td class='author'>$this->author</td><td class='title'><a href='index.php?action=detail&idP=$this->idP'>$this->title</a></td><td class='actions'><a class='delete' href='index.php?action=delete&idP=$this->idP'>Effacer</a><a href='index.php?action=update&idP=$this->idP'>Mettre à jour</a></td></tr>";
     }
 
     /**
@@ -164,16 +162,13 @@ class Photo
      */
     public function show_detail(): string
     {
-        $auteur = htmlspecialchars($this->author);
-        $titre = htmlspecialchars($this->title);
-        $desc = htmlspecialchars($this->descriptionP);
         return <<<HTML
-                <h2>$auteur: <span class="photo_title">$titre</span></h2>
-                <p>Description: $desc</p>              
+                <h2>$this->author: <span class="photo_title">$this->title</span></h2>
+                <p>Description: $this->descriptionP</p>              
                 <img src='public/images/photos/$this->idP.png' alt='$this->title'>
                 <p>La photo a été soumise le: <code>$this->dateS</code>, et prise le <code>$this->dateP</code></p>
-                <a class="actions" id="update" href="/index.php?action=update&idP=$this->idP">Mettre à jour la photo</a>
-                <a class="actions" id="delete" href="/index.php?action=delete&idP=$this->idP">Supprimer la photo</a>
+                <a id="update" href="index.php?action=update&idP=$this->idP">Mettre à jour la photo</a>
+                <a class="delete" href="index.php?action=delete&idP=$this->idP">Supprimer la photo</a>
                 HTML;
     }
 
@@ -214,11 +209,8 @@ class Photo
             ":dateP" => $this->dateP,
             ":idP" => $this->idP
         ));
-
-        /* vérifie si une nouvelle image a été envoyée */
-        if (isset($_FILES["photo"])) {
-            $file = $_FILES["photo"];
-            move_uploaded_file($file["tmp_name"], "public/images/photos/$this->idP.png");
+        if (file_exists("public/images/temp/$this->idP.png")) {
+            rename("public/images/temp/$this->idP.png", "public/images/photos/$this->idP.png");
         }
         $connection = null;
     }

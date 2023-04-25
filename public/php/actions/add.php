@@ -18,7 +18,7 @@ if (!isset($_POST["author"]) && !isset($_POST["descriptionP"]) && !isset($_POST[
 
     $photo = new Photo(
         trim($_POST['author']),
-        key_exists('title', $_POST) ? $_POST['title'] : "Sans titre",
+        !empty($_POST["title"]) ? $_POST['title'] : "Sans titre",
         trim($_POST['descriptionP']),
         trim($_POST['dateP'])
     );

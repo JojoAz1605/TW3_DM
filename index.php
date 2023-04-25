@@ -4,7 +4,6 @@
  * @author Joris MASSON
  */
 
-// TODO CSS des formulaires
 require_once("public/php/utils.php");
 require_once("public/php/classes/Photo.php");
 
